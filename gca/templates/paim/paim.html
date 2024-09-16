@@ -1,0 +1,385 @@
+{% extends 'base.html' %}
+
+
+{% block titulo %}{{paim.name}}{% endblock %}
+
+{% block menu_vertical %}
+
+{% include 'menus/menu_vertical.html' %}
+
+{% endblock %}
+
+
+
+{%block seccion %}
+
+<div class="row g-1 align-items-center">
+  <div class="col">
+    <div class="page-pretitle">Panel Paim</div>
+    <h2 class="page-title">{{paim.name}}</h2>
+  </div>
+  <div class="col-auto ms-auto d-print-none">
+    <div class="btn-list">
+    
+      <span class="d-none d-sm-inline"><a href="{% url 'report' paim.id %}" class="btn btn-primary">Crear Reporte</a></span>
+    
+    </div>
+  </div> 
+</div>
+
+{% endblock %}
+
+
+{% block contenido %}
+
+<div class="row g-3"> 
+
+      <!-- contadores  -->
+      <div class="col-md-6 col-xl-2">
+        <div class="card">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-auto">
+                <span class="bg-primary text-white avatar">
+                  <i class="fa-solid fa-car"></i>
+                </span>
+              </div>
+              <div class="col">
+                <div class="font-weight-medium">
+                  {{vt}} Vehiculos
+                </div>
+                <div class="text-muted">
+                  Transitarón
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-xl-2">
+        <div class="card">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-auto">
+                <span class="bg-lime text-white avatar">
+                  <i class="fa-solid fa-car-side"></i>
+                </span>
+              </div>
+              <div class="col">
+                <div class="font-weight-medium">
+                  {{plc_ex}} Vehiculos
+                </div>
+                <div class="text-muted">
+                  Extrajeros PLC
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-xl-2">
+        <div class="card ">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-auto">
+                <span class="bg-teal text-white avatar">
+                  <i class="fa-solid fa-car-on"></i>
+                </span>
+              </div>
+              <div class="col">
+                <div class="font-weight-medium">
+                  {{vr}} Vehiculos
+                </div>
+                <div class="text-muted">
+                  Revisados
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-xl-2">
+        <div class="card card-sm">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-auto">
+                <span class="bg-cyan text-white avatar">
+                  <i class="fa-solid fa-truck"></i>
+                </span>
+              </div>
+              <div class="col">
+                <div class="font-weight-medium">
+                  {{mta}} Mercancia
+                </div>
+                <div class="text-muted">
+                  Tránsito Aduanero
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-xl-2">
+        <div class="card card-sm">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-auto">
+                <span class="bg-dark text-white avatar">
+                <i class="fa-solid fa-clone"></i>
+                </span>
+              </div>
+              <div class="col">
+                <div class="font-weight-medium">
+                  {{mdua}} Declaración
+                </div>
+                <div class="text-muted">
+                  Mercancia Única
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-md-6 col-xl-2">
+        <div class="card card-sm">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-auto">
+                <span class=" bg-purple text-white avatar">
+                  <i class="fa-regular fa-flag"></i>
+                </span>
+              </div>
+              <div class="col">
+                <div class="font-weight-medium">
+                  {{mn}} Nacionales
+                </div>
+                <div class="text-muted">
+                  Mercancia
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- tabla y grafico de los PERSONAL PAIM -->
+    <div class="col-lg-9">
+      <div class="card">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table id="example3" class="table ta card-table table-vcenter text-nowrap datatable">
+              <thead>
+                <tr>
+                  <th>Nombre y Apellido</th>
+                  <th>V-T</th>
+                  <th>V-PLCEX-T</th>
+                  <th>V-R</th>
+                  <th>M-T-A</th>
+                  <th>M-D-U-A</th>
+                  <th>M-N</th>
+                  <th>R-P</th>
+                  <th>N-D</th>
+                  <th>Fecha</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for report in report %}
+                <tr>
+                  <td>{{report.datos}}</td>
+                  <td>{{report.vt}}</td>
+                  <td>{{report.plc_ex}}</td>
+                  <td>{{report.vr}}</td>
+                  <td>{{report.mta}}</td>
+                  <td>{{report.mdua}}</td>
+                  <td>{{report.mn}}</td>
+                  <td>{{report.rp}}</td>
+                  <td>{{report.nd}}</td>
+                  <td>{{report.f | date:"d-m-Y"}}</td>
+                  <td>
+                    <a href="{% url 'subpaim' report.id %}" class="btn btn-primary"><i class="fa-solid fa-eye"></i></a>
+                    <a href="{% url 'editar_reporte' report.id %}" class="btn bg-yellow text-yellow-fg"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="" class="btn bg-red text-red-fg" data-bs-toggle="modal" data-bs-target="#modal-reporte-{{report.id}}">
+                    <i class="fa-solid fa-trash-can"></i>
+                    </a>
+
+                    <div class="modal modal-blur fade" id="modal-reporte-{{report.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-body">
+                            <div class="modal-title">Estas segura(o)?</div>
+                            <div>Si continúa, perderá todos sus datos.</div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-link link-secondary me-auto" data-bs-dismiss="modal">Cancelar</button>
+                            <form method="post" action="{% url 'eliminar_reporte' report.id%}">
+                              {% csrf_token %}
+                              <button type="submit" class="btn btn-danger">Sí, borrar todos los datos</button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-body">
+          <div id="grafico1" data-id="{{paim.id}}" ></div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-md-4 col-lg-3">
+      <div class="card">
+        <div class="card-body">
+          <img src="{{ paim.image.url }}" alt="" style="width:350px; height: 200px;">
+          <div class="card">
+            <div class="card-status-top bg-danger"></div>
+            <div class="card-body">
+              <h3 class="card-title">Descripción</h3>
+              <p class="text-muted">
+                Funcionario a Cargo: {{paim.jefe}}<br><br>
+                Ubicación: {{paim.ubicacion}} <br><br>
+                Latitud: {{paim.latitude}} <br><br>
+                Logintud: {{paim.longitude}} <br><br>
+              </p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-status-top bg-danger"></div>
+            <div class="card-body">
+              <div id="map" style="width: 300px; height: 300px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    
+</div>
+{% endblock %}
+
+
+
+{% block js %}
+<script>
+  var mymap = L.map('map').setView([10.48, -66.86], 5); // Establece la vista inicial del mapa en Venezuela
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+  }).addTo(mymap);
+</script>
+
+
+<script>
+  $(function () {
+    $("#example3").DataTable({
+      "responsive": false,
+      "lengthChange": true,
+      "autoWidth": true,
+      "pageLength": 5,
+
+      language: {
+        "pageLength": "",
+        "decimal": "",
+        "emptyTable": "No hay datos",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ Registros",
+        "infoEmpty": "Mostrando 0 a 0 de 0 Registros",
+        "infoFiltered": "(Filtro de _MAX_ total Registros)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ Registros",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "No se encontraron coincidencias",
+        "paginate": {
+          "first": "Primero",
+          "last": "Ultimo",
+          "next": "Próximo",
+          "previous": "Anterior",
+        },
+        "aria": {
+          "sortAscending": ": Activar orden de columna ascendente",
+          "sortDescending": ": Activar orden de columna desendente",
+        }
+      }
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    $.ajax({
+      type: "GET",
+      url: "{% url 'charts'  paim.id %}", 
+      dataType: "json",
+      success: function (data) {
+        window.ApexCharts && (new ApexCharts(document.getElementById('grafico1'), {
+          chart: {
+            type: "bar",
+            fontFamily: 'inherit',
+            height: 370,
+            parentHeightOffset: 0,
+            toolbar: {
+              show: false,
+            },
+            animations: {
+              enabled: true
+            },
+          },
+          plotOptions: {
+            bar: {
+              columnWidth: '40%',
+            }
+          },
+          dataLabels: {
+            enabled: true,
+          },
+          fill: {
+            opacity: 1,
+          },
+          series: data.series,
+          tooltip: {
+            theme: 'dark'
+          },
+        
+          xaxis: {
+              categories: ['Información'],
+          },
+          colors: [
+
+                tabler.getColor("azure"),
+                tabler.getColor("lime"),
+                tabler.getColor("teal"),
+                tabler.getColor("cyan"),
+                tabler.getColor("dark"),
+                tabler.getColor("purple"),
+                tabler.getColor("blue"),
+                tabler.getColor("indigo"),
+        
+                  ],
+                  
+          legend: {
+            show: true,
+          },
+        })).render();
+      },
+    });
+  });
+</script>
+
+{% endblock %}

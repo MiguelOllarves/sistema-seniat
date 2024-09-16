@@ -1,0 +1,111 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+<head>
+
+  <meta charset="utf-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+  <title>Iniciar Sesión</title>
+
+  <link rel="icon" href='{% static "imagenes/icono.ico" %}' type="image/x-icon">
+  
+  <link href='{% static "dist/css/tabler.min.css" %}' rel="stylesheet" />
+  
+  <link href='{% static "dist/css/tabler-flags.min.css" %}' rel="stylesheet" />
+  
+  <link href='{% static "dist/css/tabler-payments.min.css" %}' rel="stylesheet" />
+  
+  <link href='{% static "dist/css/tabler-vendors.min.css" %}' rel="stylesheet" />
+  
+  <style>
+    @import url('https://rsms.me/inter/inter.css');
+
+    :root {
+      --tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+    }
+
+    body {
+      font-feature-settings: "cv03", "cv04", "cv11";
+    }
+  </style>
+</head>
+
+<body class=" d-flex flex-column ">
+
+  <script src='{% static "dist/js/theme.min.js" %}'></script>
+
+  <div class="row g-0 flex-fill">
+  <div class="col-12 col-lg-6 col-xl-8 d-none d-lg-block">
+    <!-- Photo -->
+    <div class="bg-cover h-100 min-vh-100 d-flex"> 
+      <img src="/static/imagenes/logologin.jpeg" class="img-fluid" alt="Logo Login">
+
+      </div>
+  </div>
+    <div class="col-12 col-lg-6 col-xl-4 border-top-wide border-primary d-flex flex-column justify-content-center">
+      <div class="container container-tight my-5 px-lg-5">
+        <div class="text-center mb-4">
+          <a href="." class="navbar-brand navbar-brand-autodark"><img src="{% static 'plugins/lgo.png' %}" height="80" alt="LOGO"></a>
+        </div>
+        <h2 class="h3 text-center mb-3">
+        Ingrese a su cuenta
+        </h2>
+      <form action="{% url 'login' %}" method="post" autocomplete="on" novalidate>
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+          {% for error in form.non_field_errors %}
+          <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+        {% endif %}
+        <div class="mb-3">
+          <label class="form-label" for="id_username">Nombre de Usuario</label>
+          <input type="text" class="form-control" name="username" id="id_username" placeholder="Usuario" value="{% if request.session.username %}{{ request.session.username }}{% endif %}" autocomplete="on">
+      {% if form.username.errors %}
+      <div class="invalid-feedback">
+        {{ form.username.errors|join:", " }}
+      </div>
+      {% endif %}
+        </div>
+        <div class="mb-2">
+          <label class="form-label" for="id_password">
+            Contraseña
+            <span class="form-label-description">
+              <a href="">Olvido la contraseña</a>
+            </span>
+          </label>
+          <div class="input-group input-group-flat">
+            <input type="password" class="form-control" name="password" id="id_password" placeholder="Contraseña"
+              autocomplete="on">
+          {% if form.password.errors %}
+          <div class="invalid-feedback">
+            {{ form.password.errors|join:", " }}
+          </div>
+          {% endif %}
+          </div>
+        </div>
+        <div class="mb-2">
+          <label class="form-check">
+            <input type="checkbox" class="form-check-input"  name="remember_me"/>
+            <span class="form-check-label">Recuérdame en este dispositivo</span>
+          </label>
+        </div>
+        <div class="form-footer">
+          <button type="submit" class="btn btn-primary w-100">Iniciar sesión</button>
+        </div>
+      </form>
+        <div class="text-center text-muted mt-3">
+        ¿Aún no tienes cuenta? <a href="{%url 'registro' %}" tabindex="-1">Registrese</a>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+<script src='{% static "dist/js/tabler.min.js" %}'></script>
+</body>
+</html>

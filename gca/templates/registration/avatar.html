@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+
+{% block titulo %}Panel Principal{% endblock %}
+
+{% block menu_horizontal %}
+
+{% include 'menus/menu_horizontal.html' %}
+
+{% endblock %}
+
+{% block menu_vertical %}
+
+{% include 'menus/menu_vertical.html' %}
+
+{% endblock %}
+
+
+{% block contenido %}
+<div class="row justify-content-center">
+  <div class="card w-50">
+    <div class="row g-0">
+      <div class="col d-flex flex-column">
+        <div class="card-body">
+          <h2 class="mb-4">Mi Avatar</h2>
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <span class="avatar avatar-xl">
+                {% if request.user.perfil.image %}
+                <img src="{{ request.user.perfil.image.url }}" alt="Avatar" height="110px">
+                {% else %}
+                <img src="/static/imagenes/avatar2.png" alt="Avatar" height="110px">
+                {% endif %}
+              </span>
+            </div>
+          </div>
+         {% include 'registration/form_avatar.html' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  {% endblock %}

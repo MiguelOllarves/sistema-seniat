@@ -1,0 +1,77 @@
+<form action="" method="post"  id="form-paim" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  
+
+  <div class="row">
+
+    <div class="form-group mb-3">
+      <label class="form-label" for="jefe">{{form_paim.jefe.label}}</label>
+      <input type="text" class="form-control" name="jefe" id="jefe" value="{{ form_paim.jefe.value|default_if_none:'' }}" placeholder="Funcionario a Cargo">
+      <small class="form-hint">
+      {% for error in form_paim.jefe.errors%}
+      <span class="text-danger">{{error}}</span>
+      {% endfor %}
+      </small>
+    </div>
+
+    <div class="form-group mb-3">
+      <label class="form-label" for="{{form_paim.name.id_for_label}}">{{form_paim.name.label}}</label>
+      <input type="text" class="form-control" name="name" id="name" value="{{ form_paim.name.value|default_if_none:'' }}" placeholder="Nombre del PAIM">
+      <small class="form-hint">
+        {% for error in form_paim.name.errors%}
+        <span class="text-danger">{{error}}</span>
+        {% endfor %}
+      </small>
+    </div>
+
+    <div class="form-group mb-3">
+      <label class="form-label" for="{{form_paim.latitude.id_for_label}}">Latitude :</label>
+      {{form_paim.latitude}}
+
+      <small class="form-hint">
+        {% for error in form_paim.latitude.errors%}
+        <span class="text-danger">{{error}}</span>
+        {% endfor %}
+      </small>
+      
+    </div>
+
+    <div class="form-group mb-3">
+      <label class="form-label" for="{{form_paim.longitude.id_for_label}}">Longitude :</label>
+      {{form_paim.longitude}}
+      <small class="form-hint">
+      {% for error in form_paim.longitude.errors%}
+      <span class="text-danger">{{error}}</span>
+      {% endfor %}      
+    </small>
+    </div>
+
+    <div class="form-group mb-3">
+      <label class="form-label" for="ubicacion">Ubicación</label>
+      <textarea name="ubicacion" id="ubicacion" class="form-control" rows="3"
+        value="{{ form_paim.ubicacion.value|default_if_none:'' }}"
+        placeholder="Ubicación">{{ form_paim.ubicacion.value|default_if_none:'' }}</textarea>
+        <small class="form-hint">
+          {% for error in form_paim.ubicacion.errors%}
+          <span class="text-danger">{{error}}</span>
+          {% endfor %}
+        </small>
+    </div>
+
+
+    <div class="form-group mb-3">
+      <label class="form-label" for="{{form_paim.image.id_for_label}}">Imagen:</label>
+      <input type="file" class="form-control" name="image" id="image">
+      <small class="form-hint">
+        {% for error in form_paim.image.errors%}
+        <span class="text-danger">{{error}}</span>
+        {% endfor %}
+      </small>
+    </div>
+
+    <div class="modal-footer">
+      <a href="#" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</a>
+      <input type="submit" class="btn btn-primary ms-auto" data-bs-dismiss="modal" value="Registar">
+    </div>
+</form>

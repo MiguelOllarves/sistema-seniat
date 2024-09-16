@@ -1,0 +1,520 @@
+{% extends 'base.html' %}
+
+{% block css %}
+  <style>
+    .compact-container {
+      padding: 3px;
+      /* Elimina el padding del contenedor */
+      margin-bottom: 0;
+      /* Ajusta o elimina el margen inferior según sea necesario */
+    }
+  
+    .compact-text {
+      margin: 0;
+      /* Elimina el margen del texto */
+      line-height: 1.2;
+      /* Ajusta la altura de línea para un aspecto más denso */
+    }
+  </style>
+{% endblock %}
+  
+
+ {% block titulo %}Panel Principal{% endblock %}
+
+  {% block menu_vertical %}
+  
+  {% include 'menus/menu_vertical.html' %}
+  
+  {% endblock %}
+
+{% block menu_horizontal %}
+      
+      {% include 'menus/menu_horizontal.html' %}
+        
+{% endblock %}
+
+
+  
+{%block seccion %}
+
+<div class="row g-1 align-items-center">
+  <div class="col">
+    <div class="page-pretitle">Panel Principal</div>
+    <h2 class="page-title">Vista de las Actividades</h2>
+  </div>
+   <div class="col-auto ms-auto d-print-none">
+    <div class="btn-list">
+      <span class="d-none d-sm-inline">
+      {% if perms.gca.add_paim %}
+      <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-paim">Crear Paim</a>
+      {% endif %}
+
+      </span>
+    </div>
+  </div> 
+</div>
+
+{% endblock %} 
+
+
+{% block contenido %}
+
+<div class="row g-3">
+
+  <!-- contadores  -->
+
+  <div class="col-md-6 col-xl-3">
+    <div class="card">
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <span class="bg-primary text-white avatar">
+              <i class="fa-solid fa-list-check"></i>
+            </span>
+          </div>
+          <div class="col">
+            <div class="font-weight-medium">
+              {{tareas_terminadas}} Tareas
+            </div>
+            <div class="text-muted">
+              Tareas Completadas
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-xl-3">
+    <div class="card">
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <span class="bg-green text-white avatar">
+              <i class="fa-solid fa-bars-progress"></i>
+            </span>
+          </div>
+          <div class="col">
+            <div class="font-weight-medium">
+            {{tareas_en_proceso}} Tareas
+            </div>
+            <div class="text-muted">
+              Tareas en Proceso
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-xl-3">
+    <div class="card ">
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <span class="bg-red text-white avatar">
+              <i class="fa-solid fa-thumbtack"></i>
+            </span>
+          </div>
+          <div class="col">
+            <div class="font-weight-medium">
+              {{tareas_falta_un_dia}} Tareas
+            </div>
+            <div class="text-muted">
+             Tarea a Culminar
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-xl-3">
+    <div class="card card-sm">
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <span class="bg-yellow text-white avatar">
+              <i class="fa-solid fa-person"></i>
+            </span>
+          </div>
+          <div class="col">
+            <div class="font-weight-medium">
+             {{usuarios_total}} Usuario
+            </div>
+            <div class="text-muted">
+             Usuario Registrados
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- tabla delos fiscales -->
+  <div class="col-lg-7">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Tabla Fiscales</h3>
+        <div class="col-auto ms-auto d-print-none">
+          <div class="btn-list">
+            <span class="d-none d-sm-inline">
+            {% if perms.gca.add_fiscales %}
+            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-fiscales">Agregar Fiscal</a>
+            {% endif %}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table id="example1" class="table ta card-table table-vcenter text-nowrap datatable">
+            <thead>
+              <tr>
+                <th>Nombre y Apellido</th>
+                <th>Cargo</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for fiscal in fiscales %}
+              <tr>
+                <td>{{fiscal.datos_fical}}</td>
+                <td>{{fiscal.cargo_fiscal}}</td>
+                <td>
+                  <a href="{%url 'informacion' fiscal.id %}" class="btn btn-primary" title="Ver"><i class="fa fa-eye"></i></a>
+                  <a href="{%url 'editar_fiscal' fiscal.id %}" class="btn bg-yellow text-yellow-fg" title="Editar"><i
+                      class="fa-solid fa-pen-to-square"></i></a>
+                  <a href="#" class="btn bg-red text-red-fg" data-bs-toggle="modal" title="Eliminar" data-bs-target="#modal-fiscal-{{fiscal.id}}"><i
+                      class="fa-solid fa-trash-can"></i></a>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- tabla de actividades -->
+<div class="col-lg-5">
+  <div class="card">
+    <div class="card-header border-0">
+      <div class="card-title">Actividad de desarrollo</div>
+    </div>
+    <div class="position-relative">
+      <div class="position-absolute top-0 left-0 px-3 mt-0 w-75">
+        <div class="row g-0">
+          <div class="col-auto">
+            <div class="chart-sparkline chart-sparkline-square" id="sparkline-activity"></div>
+          </div>
+          <div class="col">
+            <div>Conectados Hoy: {{ today_connections }} </div>
+            <div class="text-muted">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-inline text-green" width="10" height="10"
+                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M3 17l6 -6l4 4l8 -8" />
+                <path d="M14 7l7 0l0 7" />
+              </svg>
+            +{{ percentage_increase }}% más que ayer
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="activity"></div>
+    </div>
+    <div class="card-table table-responsive">
+      <table class="table table-vcenter">
+        <thead>
+          <tr>
+            <th>Usuario</th>
+            <th>Conectados</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody>
+      {% for connection in user_connections %}
+      {% if forloop.counter < 7 %}
+          <tr>
+            <td class="w-1">
+              <span class="avatar">
+                {% if connection.user.perfil.image %}
+                <img src="{{ connection.user.perfil.image.url }}" alt="Avatar" height="40px">
+                {% else %}
+                <img src='/static/imagenes/avatar2.png' alt="Avatar">
+                {% endif %}
+              </span>
+            </td>
+            <td class="td-truncate">
+              <div class="text-truncate">
+               {{ connection.user.first_name }} {{ connection.user.last_name }} este usuario a estado conectado
+
+              </div>
+            </td>
+            <td class="text-nowrap text-muted">{{ connection.connected_at|date:"d M y"}}</td>
+          </tr>
+          {% endif %}
+            {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+ </div>
+</div>
+
+
+<!-- modal de carga fiscales-->
+<div class="modal modal-blur fade" id="modal-carga-fiscal" tabindex="-1" role="dialog" aria-hidden="false"  data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="loading-spinner">
+          <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <p>Cargando Registro de los Funcionario.....</p>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- MODAL DE CREAR FISCAL O FUNCIONARIO -->
+  <div class="modal modal-blur fade" id="modal-fiscales" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Formulario de Funcionario</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          {% include 'principal/formulario.html' %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- MODAL DELETE FISCALES -->
+    {% for fiscal in fiscales %}
+    <div class="modal modal-blur fade" id="modal-fiscal-{{fiscal.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="modal-title">Estas segura(o)?</div>
+            <div>Si continúa, perderá todos sus datos del Funcionario.</div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-link link-secondary me-auto" data-bs-dismiss="modal">Cancelar</button>
+            <form method="post" action="{%url 'eliminar' fiscal.id %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger">Sí, borrar todos los datos</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+
+  <!-- modal de carga Paim-->
+  <div class="modal modal-blur fade" id="modal-carga-paim" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="loading-spinner">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+            <p>Creando Paim.....</p>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- MODAL DE CREAR PAIM -->
+  <div class="modal modal-blur fade" id="modal-paim" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Formulario de Paim</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          {% include 'paim/formulario_paim.html' %}
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+</div>
+{% endblock %}
+
+
+{% block js %}
+  <script>
+    $(function () {
+      $("#example1").DataTable({
+        "responsive": false,
+        "lengthChange": true,
+        "autoWidth": true,
+        "pageLength": 8,
+
+        language: {
+          "pageLength": "",
+          "decimal": "",
+          "emptyTable": "No hay datos",
+          "info": "Mostrando _START_ a _END_ de _TOTAL_ Registros",
+          "infoEmpty": "Mostrando 0 a 0 de 0 Registros",
+          "infoFiltered": "(Filtro de _MAX_ total Registros)",
+          "infoPostFix": "",
+          "thousands": ",",
+          "lengthMenu": "Mostrar _MENU_ Registros",
+          "loadingRecords": "Cargando...",
+          "processing": "Procesando...",
+          "search": "Buscar:",
+          "zeroRecords": "No se encontraron coincidencias",
+          "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Próximo",
+            "previous": "Anterior",
+          },
+          "aria": {
+            "sortAscending": ": Activar orden de columna ascendente",
+            "sortDescending": ": Activar orden de columna desendente",
+          }
+        }
+      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+    });
+  </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    $.ajax({
+      type: "GET",
+      url: "{% url 'actividad' %}",
+      dataType: "json",
+      success: function (data) {
+        const chart = new ApexCharts(document.getElementById('activity'), {
+          chart: {
+            type: "area",
+            fontFamily: 'inherit',
+            height: 192,
+            sparkline: {
+              enabled: true
+            },
+            animations: {
+              enabled: true
+            },
+          },
+          dataLabels: {
+            enabled: false,
+          },
+          fill: {
+            opacity: .16,
+            type: 'solid'
+          },
+          stroke: {
+            width: 2,
+            lineCap: "round",
+            curve: "smooth",
+          },
+          series: [{
+            name: "Conectados",
+            data: data.data
+          }],
+          tooltip: {
+            theme: 'dark'
+          },
+          grid: {
+            strokeDashArray: 4,
+          },
+          xaxis: {
+            labels: {
+              padding: 0,
+            },
+            tooltip: {
+              enabled: false
+            },
+            axisBorder: {
+              show: false,
+            },
+            type: 'datatime',
+            categories: data.labels
+          },
+          yaxis: {
+            labels: {
+              padding: 4
+            },
+          },
+          colors: [tabler.getColor("primary")],
+          legend: {
+            show: false,
+          },
+          point: {
+            show: false
+          },
+        });
+        chart.render();
+      }
+    });
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+    // Suponiendo que tus formularios tienen los IDs 'form-fiscales' y 'form-paim'
+    $('#form-fiscales').on('submit', function (e) {
+      // Prevenir el envío del formulario por defecto
+      e.preventDefault();
+
+      // Verificar si el formulario está vacío
+      var formData = $(this).serialize();
+      if (formData.length > 0) {
+        // Si el formulario no está vacío, mostrar el modal de carga
+        $('#modal-carga-fiscal').modal({
+          backdrop: 'static',
+          keyboard: false
+        }).modal('show');
+
+        // Continuar con el envío del formulario
+        // Reemplaza esto con tu lógica de envío AJAX si es necesario
+        this.submit();
+      }
+    });
+
+    $('#form-paim').on('submit', function (e) {
+      // Prevenir el envío del formulario por defecto
+      e.preventDefault();
+
+      // Verificar si el formulario está vacío
+      var formData = $(this).serialize();
+      if (formData.length > 0) {
+        // Si el formulario no está vacío, mostrar el modal de carga
+        $('#modal-carga-paim').modal({
+          backdrop: 'static',
+          keyboard: false
+        }).modal('show');
+
+        // Continuar con el envío del formulario
+        // Reemplaza esto con tu lógica de envío AJAX si es necesario
+        this.submit();
+      }
+    });
+  });
+</script>
+
+
+{% endblock  %}
+  

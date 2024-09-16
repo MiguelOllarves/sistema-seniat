@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Información del Fiscal{% endblock %}
+
+{% block menu_vertical %}{% include 'menus/menu_vertical.html' %}{% endblock %}
+{% block menu_horizontal %}
+
+{% include 'menus/menu_horizontal.html' %}
+
+{% endblock %}
+
+{%block seccion %}
+
+<div class="row g-1 align-items-center">
+  <div class="col">
+    <div class="page-pretitle">Panal de Registro</div>
+    <h2 class="page-title">Completa la Tarea</h2>
+  </div>
+  <div class="col-auto ms-auto d-print-none">
+    <div class="btn-list">
+     <span class="d-none d-sm-inline">
+    <a href="{% url 'informacion' fiscal.id %}" class="btn btn-primary">Regresar</a>
+
+     </span>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block contenido %}
+<div class="row">
+  <div class="col-md-6 col-lg-5">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Registrar toda la Documentación de la Tarea Asignada</h3>
+        <div class="card-tools"> </div>
+      </div>
+      <div class="card-body">
+      <!-- formulario para cargar archivos-->
+      <form action="" method="post" enctype="multipart/form-data" id="formpasos">
+      {% csrf_token %}
+        <div class="row">
+          <div class="form-group mb-3">
+            <label class="form-label" for="tarea">Tarea</label>
+            <select  class="form-control" name="tarea" id="tarea">
+            <option value="{{tarea.id}}">{{tarea.tarea}}</option>
+            </select>
+          </div>
+          <div class="form-group mb-3">
+            <label class="form-label" for="nombre">Titulo Agregar</label>
+            <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre del Titulo de Acta">
+          {% for error in form.nombre.errors%}
+          <span class="text-danger">{{error}}</span>
+          {% endfor %}
+          </div>
+          <div class="form-group mb-3">
+            <label class="form-label" for="archivo">Archivo</label>
+            <input type="file" class="form-control" name="archivo" id="archivo">
+            {% for error in form.archivo.errors%}
+            <span class="text-danger">{{error}}</span>
+            {% endfor %}
+          </div>
+            <input type="submit" class="btn btn-primary ms-auto"  value="REGISTRAR DOCUMENTACIÓN" id="btnSubmit">
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-md-6 col-lg-7">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Tabla de Archivos</h3>
+        <div class="card-tools"> </div>
+      </div>
+      <div class="card-body">
+        <table id="tablaInformacion" class="table card-table table-vcenter datatable">
+          <thead>
+            <tr>
+              <th>N°</th>
+              <th>Nombre</th>
+              <th>Archivo</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          {% for paso in pasos %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ paso.nombre }}</td>
+            <td>
+            <a href="{{paso.archivo.url}}" class="btn bg-blue text-blue-fg " target="_blank">
+            <i class="fa-solid fa-folder"></i>
+            </a>
+            </td>
+
+            <td>
+            <a href="" class="btn bg-red text-red-fg" data-bs-toggle="modal" data-bs-target="#modal-pasos-{{paso.id}}">
+            <i class="fa-solid fa-trash-can"></i>
+            </a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6" style="text-align: center;">No hay pasos completados</td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- modal de carga de los pasos-->
+<div class="modal modal-blur fade" id="modal-carga-pasos" tabindex="-1" role="dialog" aria-hidden="false"
+  data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="loading-spinner">
+          <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <p>Cargando Archivo de la Tarea.....</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal de eliminacion-->
+{% for paso  in pasos %}
+<div class="modal modal-blur fade" id="modal-pasos-{{paso.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="modal-title">Estas segura(o)?</div>
+        <div>Si continúa, perderá todos sus datos.</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-link link-secondary me-auto" data-bs-dismiss="modal">Cancelar</button>
+        <form method="post" action="{%url 'eliminar_pasos' paso.id %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">Sí, borrar todos los datos</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}
+
+
+{% block js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const tabla = document.getElementById('tablaInformacion');
+    const btnSubmit = document.getElementById('btnSubmit');
+
+    function verificarEstadoBoton() {
+      const filas = tabla.getElementsByTagName('tr');
+      let contador = 0;
+
+      for (let i = 0; i < filas.length; i++) {
+        if (filas[i].getElementsByTagName('td').length > 0) {
+          contador++;
+        }
+      }
+
+      if (contador >= 12) {
+        btnSubmit.disabled = true;
+      } else {
+        btnSubmit.disabled = false;
+      }
+    }
+
+    verificarEstadoBoton();
+    setInterval(verificarEstadoBoton, 1000); 
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+   
+    $('#formpasos').on('submit', function (e) {
+      
+      e.preventDefault();
+
+      // Verificar si el formulario está vacío
+      var formData = $(this).serialize();
+      if (formData.length > 0) {
+        // Si el formulario no está vacío, mostrar el modal de carga
+        $('#modal-carga-pasos').modal({
+          backdrop: 'static',
+          keyboard: false
+        }).modal('show');
+
+        this.submit();
+      }
+    });
+
+  });
+</script>
+
+
+{% endblock %}

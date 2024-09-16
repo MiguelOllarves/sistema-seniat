@@ -1,0 +1,72 @@
+<form action=""   id="form-fiscales" method="post">
+{% csrf_token %}
+
+<div class="row">
+  <div class="form-group mb-3">
+    <label class="form-label" for="datos_fical">{{form_fiscales.datos_fical.label}}</label>
+    <input type="text" class="form-control" name="datos_fical" id="datos_fical" value="{{ form_fiscales.datos_fical.value|default_if_none:'' }}" placeholder="Nombres y Apellidos">
+  <small class="form-hint">
+    {% for error in form_fiscales.datos_fical.errors%}
+    <span class="text-danger">{{error}}</span>
+    {% endfor %}
+  </small>
+  </div>
+
+  <div class="form-group mb-3">
+    <label class="form-label" for="cargo_fiscal">Cargo</label>
+    <textarea class="form-control" rows="3" name="cargo_fiscal" id="cargo_fiscal"  placeholder="Cargo">{{ form_fiscales.cargo_fiscal.value|default_if_none:'' }}</textarea>
+    <small class="form-hint">
+      {% for error in form_fiscales.cargo_fiscal.errors%}
+      <span class="text-danger">{{error}}</span>
+      {% endfor %}
+    </small>
+  </div>
+
+  <div class="form-group mb-3">
+    <label class="form-label" for="profesion">Especialidad</label>
+    <input type="text" class="form-control" name="profesion" id="profesion" value="{{ form_fiscales.profesion.value|default_if_none:'' }}" placeholder="Especialidad">
+    <small class="form-hint">
+      {% for error in form_fiscales.profesion.errors%}
+      <span class="text-danger">{{error}}</span>
+      {% endfor %}
+    </small>
+  </div>
+
+  <div class="form-group mb-3">
+    <label class="form-label" for="ubicacion">Ubicación</label>
+    <textarea name="ubicacion" id="ubicacion" class="form-control" rows="3" value="{{ form_fiscales.ubicacion.value|default_if_none:'' }}" placeholder="Ubicación">{{ form_fiscales.ubicacion.value|default_if_none:'' }}</textarea>
+  <small class="form-hint">
+    {% for error in form_fiscales.ubicacion.errors%}
+    <span class="text-danger">{{error}}</span>
+    {% endfor %}
+  </small>
+  </div>
+
+  <div class="form-group mb-3">
+    <label class="form-label" for="telefono">Telefono</label>
+    <input type="tel" class="form-control" name="telefono" id="telefono" value="{{ form_fiscales.telefono.value|default_if_none:'' }}" placeholder="Telefono">
+  <small class="form-hint">
+    {% for error in form_fiscales.telefono.errors%}
+    <span class="text-danger">{{error}}</span>
+    {% endfor %}
+  </small>
+  </div>
+
+  <div class="form-group mb-3">
+    <label class="form-label" for="email">Correo Electronico</label>
+    <input type="email" class="form-control" name="email" id="email" value="{{ form_fiscales.email.value|default_if_none:'' }}" placeholder="Correo Electronico">
+  </div>
+<small class="form-hint">
+  {% for error in form_fiscales.email.errors%}
+  <span class="text-danger">{{error}}</span>
+  {% endfor %}
+</small>
+</div>
+
+
+
+<div class="modal-footer">
+ <a href="{% url 'principal' %}" class="btn btn-dark">Cancelar</a>
+ <input type="submit" class="btn btn-primary ms-auto" id="form-fiscales" data-bs-dismiss="modal" value="Registrar">
+</div>
+</form>

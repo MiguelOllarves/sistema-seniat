@@ -1,0 +1,57 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Preparando la Aplicación...</title>
+  <!-- CSS files -->
+  <link href="/static/dist/css/tabler.min.css" rel="stylesheet" />
+  <link href="/static/dist/css/tabler-flags.min.css" rel="stylesheet" />
+  <link href="/static/dist/css/tabler-payments.min.css" rel="stylesheet" />
+  <link href="/static/dist/css/tabler-vendors.min.css" rel="stylesheet" />
+  <link href="/static/dist/css/demo.min.css" rel="stylesheet" />
+  <style>
+    @import url('https://rsms.me/inter/inter.css');
+
+    :root {
+      --tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+    }
+
+    body {
+      font-feature-settings: "cv03", "cv04", "cv11";
+    }
+  </style>
+</head>
+
+<body class=" d-flex flex-column">
+  <div class="page page-center">
+    <div class="container container-slim py-4">
+      <div class="text-center">
+        <div class="mb-3">
+          <a href="." class="navbar-brand navbar-brand-autodark"><img src="/static/plugins/lgo.png" height="36"
+              alt=""></a>
+        </div>
+        <div class="text-muted mb-3">Preparando el Sistema</div>
+        <div class="progress progress-sm">
+          <div class="progress-bar progress-bar-indeterminate"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Libs JS -->
+  <!-- Tabler Core -->
+  <script src="/static/dist/js/tabler.min.js" defer></script>
+  <script src="/static/dist/js/demo.min.js" defer></script>
+
+
+
+<script>
+  setTimeout(function () {
+    window.location.href = "{% url 'principal' %}";
+  }, 3000);
+</script>
+</body>
+</html>

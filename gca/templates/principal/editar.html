@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block css %}
+<style>
+  .compact-container {
+    padding: 3px;
+    /* Elimina el padding del contenedor */
+    margin-bottom: 0;
+    /* Ajusta o elimina el margen inferior según sea necesario */
+  }
+
+  .compact-text {
+    margin: 0;
+    /* Elimina el margen del texto */
+    line-height: 1.2;
+    /* Ajusta la altura de línea para un aspecto más denso */
+  }
+</style>
+{% endblock %}
+
+
+{% block titulo %}Panel Principal{% endblock %}
+
+
+{% block menu_vertical %}
+
+{% include 'menus/menu_vertical.html' %}
+
+{% endblock %}
+
+{%block seccion %}
+
+<div class="row g-1 align-items-center">
+  <div class="col">
+    <div class="page-pretitle">Panel Edición</div>
+    <h2 class="page-title">Editar Fiscal</h2>
+  </div>
+  <div class="col-auto ms-auto d-print-none">
+    <div class="btn-list">
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block contenido %}
+
+<div class="row justify-content-center">
+  <div class="card w-50">
+    <div class="card-header">
+      <h3 class="card-title">Edición de  Fiscal</h3>
+    </div>
+    <div class="card-body">
+  
+    {% include 'principal/formulario.html' %}    
+  
+    </div>
+  </div>
+</div>
+{% endblock %}

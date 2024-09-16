@@ -1,0 +1,13 @@
+<form action="" method="post" enctype="multipart/form-data">
+
+{% csrf_token %}
+
+<label for="image">{{form_perfil.image.label}}</label>
+<input type="file" class="form-control" name="image" id="image">
+
+<div class="modal-footer">
+  <a href="" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</a>
+  <input type="submit" class="btn btn-primary ms-auto" data-bs-dismiss="modal" value="Subir">
+</div>
+
+</form>

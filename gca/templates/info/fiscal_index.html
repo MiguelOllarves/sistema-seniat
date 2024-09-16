@@ -1,0 +1,309 @@
+{% extends 'base.html' %}
+{% block titulo %}Información del Fiscal{% endblock  %}
+
+{% block menu_vertical %}{% include 'menus/menu_vertical.html' %}{% endblock %}
+
+{% block menu_horizontal %}{% include 'menus/menu_horizontal.html' %}{% endblock %}
+
+{%block seccion %}
+
+<div class="row g-1 align-items-center">
+  <div class="col">
+    <div class="page-pretitle">Panel Principal</div>
+    <h2 class="page-title">Información de las Tareas</h2>
+  </div>
+  <div class="col-auto ms-auto d-print-none">
+    <div class="btn-list">
+      <span class="d-none d-sm-inline">
+      {% if perms.gca.add_informacion %}
+      <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-tarea">Agregar Tarea </a>
+      {% endif %}
+      </span>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+{% block contenido %}
+<div class="row g-3">
+
+<!-- contadores  -->
+
+<div class="col-md-6 col-xl-4">
+  <div class="card">
+    <div class="card-body">
+      <div class="row align-items-center">
+        <div class="col-auto">
+          <span class="bg-primary text-white avatar">
+            <i class="fa-solid fa-list-check"></i>
+          </span>
+        </div>
+        <div class="col">
+          <div class="font-weight-medium">
+            {{tareas_terminadas}} Tareas
+          </div>
+          <div class="text-muted">
+            Tareas Completadas
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-6 col-xl-4">
+  <div class="card">
+    <div class="card-body">
+      <div class="row align-items-center">
+        <div class="col-auto">
+          <span class="bg-green text-white avatar">
+            <i class="fa-solid fa-bars-progress"></i>
+          </span>
+        </div>
+        <div class="col">
+          <div class="font-weight-medium">
+            {{tareas_en_proceso}} Tareas
+          </div>
+          <div class="text-muted">
+            Tareas en Proceso
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-6 col-xl-4">
+  <div class="card ">
+    <div class="card-body">
+      <div class="row align-items-center">
+        <div class="col-auto">
+          <span class="bg-red text-white avatar">
+            <i class="fa-solid fa-thumbtack"></i>
+          </span>
+        </div>
+        <div class="col">
+          <div class="font-weight-medium">
+            {{tareas_falta_un_dia}} Tareas
+          </div>
+          <div class="text-muted">
+            Tarea a Culminar
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- tabla de tarea o asignacion de actividades o de trabajo  -->
+
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Asignación de Tareas</h3>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table id="example3" class="table card-table table-vcenter  datatable">
+        <thead>
+          <tr>
+            <th>N°</th>
+            <th>Tarea</th>
+            <th>Inicio</th>
+            <th>Plazo</th>
+            <th>Dias-Rest</th>
+            <th>Status</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for tarea in tarea %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{tarea.tarea}}</td>
+            <td>{{tarea.fecha_entrada|date:"d/m/Y"}}</td>
+            <td>{{tarea.fecha_salida|date:"d/m/Y"}}</td>
+            <td>{{tarea.dias_restantes}}.dias</td>
+          <td>
+         
+          {% if tarea.pasos_set.count < 12 %}
+           {% if tarea.estado == "Terminado" %} 
+           <span class="badge bg-red-lt">{{ tarea.estado}}</span>
+            {% elif tarea.estado == "Falta un dia" %}
+            <span class="badge bg-orange-lt">{{ tarea.estado }}</span>
+            {% elif tarea.estado == "Completado" %}
+            <span class="badge bg-red-lt">{{ tarea.estado }}</span>
+            {% else %}
+            <span class="badge bg-green-lt">{{ tarea.estado }}</span>
+            {% endif %}
+            {% else %}
+            <span class="badge bg-red-lt">Completado</span>
+            {% endif %}
+          
+          </td>
+
+            <td>
+           
+              <a href="{% url 'pasos_vista' tarea.id %}" class="btn btn-primary "><i class="fa-solid fa-eye"></i></a>
+            {% if perms.gca.delete_informacion %}
+            <a href="" class="btn bg-red text-red-fg" data-bs-toggle="modal" data-bs-target="#modal-small-{{tarea.id}}">
+              <i class="fa-solid fa-trash-can"></i>
+            </a>
+            {% endif %}
+            <div class="modal modal-blur fade" id="modal-small-{{tarea.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+              <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-body">
+                    <div class="modal-title">Estas segura(o)?</div>
+                    <div>Si continúa, perderá todos sus datos.</div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-link link-secondary me-auto" data-bs-dismiss="modal">Cancelar</button>
+                    <form method="post" action="{%url 'eliminar_tarea' tarea.id %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger">Sí, borrar todos los datos</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+     
+    </div>
+  </div>
+
+  <!-- modal de carga Tarea-->
+  <div class="modal modal-blur fade" id="modal-carga-tarea" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="loading-spinner">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+            <p>Creando Tarea.....</p>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE CREAR TAREA-->
+  
+  <div class="modal modal-blur fade" id="modal-tarea" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Actividad</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          {% include 'info/formulario.html' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+{% endblock %}
+
+{% block js %}
+  <script>
+    $(function () {
+      $("#example3").DataTable({
+        "responsive": false,
+        "lengthChange": true,
+        "autoWidth": true,
+        "pageLength": 7,
+
+        language: {
+          "pageLength": "",
+          "decimal": "",
+          "emptyTable": "No hay datos",
+          "info": "Mostrando _START_ a _END_ de _TOTAL_ Registros",
+          "infoEmpty": "Mostrando 0 a 0 de 0 Registros",
+          "infoFiltered": "(Filtro de _MAX_ total Registros)",
+          "infoPostFix": "",
+          "thousands": ",",
+          "lengthMenu": "Mostrar _MENU_ Registros",
+          "loadingRecords": "Cargando...",
+          "processing": "Procesando...",
+          "search": "Buscar:",
+          "zeroRecords": "No se encontraron coincidencias",
+          "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Próximo",
+            "previous": "Anterior",
+          },
+          "aria": {
+            "sortAscending": ": Activar orden de columna ascendente",
+            "sortDescending": ": Activar orden de columna desendente",
+          }
+        }
+      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+    });
+  </script>
+
+<script>
+  $(document).ready(function () {
+    $('#form-tareas').on('submit', function (e) {
+      // Prevenir el envío del formulario por defecto
+      e.preventDefault();
+
+      // Verificar si el formulario está vacío
+      var formData = $(this).serialize();
+      if (formData.length > 0) {
+        // Si el formulario no está vacío, mostrar el modal de carga
+        $('#modal-carga-tarea').modal({
+          backdrop: 'static',
+          keyboard: false
+        }).modal('show');
+
+        // Continuar con el envío del formulario
+        // Reemplaza esto con tu lógica de envío AJAX si es necesario
+        this.submit();
+      }
+    });
+   
+  });
+
+</script>
+
+<script>
+  $(document).ready(function () {
+    // Suponiendo que tus formularios tienen los IDs 'form-fiscales' y 'form-paim'
+    $('#form-tarea').on('submit', function (e) {
+      // Prevenir el envío del formulario por defecto
+      e.preventDefault();
+
+      // Verificar si el formulario está vacío
+      var formData = $(this).serialize();
+      if (formData.length > 0) {
+        // Si el formulario no está vacío, mostrar el modal de carga
+        $('#modal-carga-tarea').modal({
+          backdrop: 'static',
+          keyboard: false
+        }).modal('show');
+
+        // Continuar con el envío del formulario
+        // Reemplaza esto con tu lógica de envío AJAX si es necesario
+        this.submit();
+      }
+    });
+
+  });
+</script>
+
+{% endblock  %}
+  

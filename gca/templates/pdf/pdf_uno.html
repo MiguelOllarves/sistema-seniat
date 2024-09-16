@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reportes Diarios</title>
+
+<style>
+
+
+  /* Estilos existentes */
+  .tabla1, .tabla2, .tabla3 {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .tabla1 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+    margin-left: 20px;
+    background-color: #f9f9f9;
+  }
+
+  .tg td, .tg th {
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    margin-left: 30px;
+    margin-bottom: 10px;
+  }
+   
+  .tg .tg-1wig {
+    font-weight: bold;
+    vertical-align: top;
+    padding: 2px;
+  }
+
+  .tg .tg-7btt {
+    border-color: inherit;
+    font-size: 18px;
+    text-align: center;
+    padding: 5px;
+  }
+  .tg span{
+    font-weight: lighter;
+    text-transform: uppercase;
+  }
+
+  .tabla2 {
+    margin-top: 5px;
+    background-color: #e6e6e6;
+  }
+
+  .to td, .to th{
+    border: 1px solid black;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+  }
+  .to .to-0wig{
+    text-align: center;
+  }
+
+  .to .to-4wig{
+   padding: 1px;
+   margin: 1px;
+   text-align: justify;
+  }
+
+  .to .to-3wig{
+    padding: 10px;
+  }
+
+  .to .to-5wig{
+    padding: 5px;
+  }
+
+  .tabla3 {
+    margin-top: 50px;
+    margin-left: 30px;
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  .gris-transparente {
+        color: rgba(128, 128, 128, 0.5); /* Esto aplica un gris (128, 128, 128) con una opacidad del 50% */
+    }
+
+</style>
+
+</head>
+<body>
+
+<!-- Imagen del PAIM -->
+<table class="tabla0">
+  <tbody>
+    <tr>
+      <td colspan="5"><img src="{{img_uno}}" alt="Imagen Seniat" width="300" height="150"></td>
+    </tr>
+    <tr>
+      <td colspan="5"  class="gris-transparente" style="font-size: 12px; ">SNAT/GGCAT/2024</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="tabla1">
+<table class="tg">
+  <thead>
+    <tr>
+      <th class="tg-7btt" colspan="2">REPORTES DIARIOS</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    
+    <tr>
+      <td class="tg-1wig" colspan="2">NOMBRE DEL PAIM: <span> {{reporte.paim.name}} </span> </td>
+    </tr>
+    <tr>
+      <td class="tg-1wig" colspan="2">NOMBRE DEL FUNCIONARIO(s) A CARGO: <span>{{reporte.paim.jefe}}</span> </td>
+    </tr>
+    <tr>
+      <td class="tg-1wig" colspan="2">DIRECCION DEL PAIM: <span> {{reporte.paim.ubicacion}}</span></td>
+    </tr>
+    <tr>
+      <td class="tg-1wig" colspan="2">FECHA DEL REPORTE: <span>{{reporte.f|date:"d-m-y"}} </span> </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="tabla2">
+  <table class="to">
+    <thead>
+      <tr>
+        <th class="to-1wig" colspan="3" style="border-color: inherit;"></th>
+        <th class="to-5wig" colspan="1">CANTIDAD</th>
+        <th class="to-5wig" colspan="2">OBSERVACIONES</th>
+      </tr>
+    </thead>
+    <tbody>
+    
+      <tr>
+        <td class="to-4wig" colspan="3">Número de vehículos que transitaron por el PAIM</td>
+        <td class="to-0wig" colspan="1">{{reporte.vt}}</td>
+        <td class="to-3wig" colspan="2">{{reporte.ob1}}</td>
+      </tr>
+     
+     
+      <tr>
+        <td class="to-4wig" colspan="3">Número de vehículos con placa extranjera que transitaron por el PAIM</td>
+        <td class="to-0wig" colspan="1">{{reporte.plc_ex}}</td>
+        <td class="to-3wig" colspan="2">{{reporte.ob2}}</td>
+      </tr>
+     
+      <tr>
+        <td class="to-4wig" colspan="3">Número de vehículos revisados en el PAIM</td>
+        <td class="to-0wig" colspan="1">{{reporte.vr}}</td>
+        <td class="to-3wig" colspan="2">{{reporte.ob3}}</td>
+      </tr>
+    
+    <tr>
+      <td class="to-4wig" colspan="3">Mercancías en Tránsito Aduanero</td>
+      <td class="to-0wig" colspan="1">{{reporte.mta}}</td>
+      <td class="to-3wig" colspan="2">{{reporte.ob4}}</td>
+    </tr>
+   
+    <tr>
+      <td class="to-4wig" colspan="3">Mercancías con Declaración Única de Aduanas</td>
+      <td class="to-0wig" colspan="1">{{reporte.mdua}}</td>
+      <td class="to-3wig" colspan="2">{{reporte.ob5}}</td>
+    </tr>
+    
+    <tr>
+      <td class="to-4wig" colspan="3">Mercancías Nacionales</td>
+      <td class="to-0wig" colspan="1">{{reporte.mn}}</td>
+      <td class="to-3wig" colspan="2">{{reporte.ob6}}</td>
+    </tr>
+   
+    <tr>
+      <td class="to-4wig" colspan="3">Retención Preventiva</td>
+      <td class="to-0wig" colspan="1">{{reporte.rp}}</td>
+      <td class="to-3wig" colspan="2">{{reporte.ob7}}</td>
+    </tr>
+  
+    <tr>
+      <td class="to-4wig" colspan="3">Numero de documentos (Facturas, Notas de Entrega, Recibos) aquellos que no cumplan con las formalidades tributarias</td>
+      <td class="to-0wig" colspan="1">{{reporte.nd}}</td>
+      <td class="to-3wig" colspan="2">{{reporte.ob8}}</td>
+    </tr>
+   
+    </tbody>
+  </table>
+</div>
+
+<div class="tabla3">
+<table class="ta">
+  <tbody>
+    <tr>
+      <td class="ta-4wig" colspan="3" style="text-align: center;">Aduana:</td>
+      <td class="ta-0wig" colspan="3" style="text-align: center;">Firma y Sello</td>
+      <td class="ta-3wig" colspan="3" style="text-align: center;">Tributos</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="tabla4">
+  <table class="tu">
+    <tbody>
+      <tr>
+        <td class="tu-4wig" style="text-align: center;">Funcionario(s) a Cargo:</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+</body>
+</html>

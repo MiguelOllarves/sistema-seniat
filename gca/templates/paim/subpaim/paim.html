@@ -1,0 +1,271 @@
+{% extends 'base.html' %}
+
+
+{% block titulo %}Información de Reporte{% endblock %}
+
+{% block menu_vertical %}
+
+{% include 'menus/menu_vertical.html' %}
+
+{% endblock %}
+
+
+
+{%block seccion %}
+
+<div class="row g-1 align-items-center">
+  <div class="col">
+    <div class="page-pretitle">Panel Paim</div>
+    <h2 class="page-title">{{paim.name}}</h2>
+  </div>
+  <div class="col-auto ms-auto d-print-none">
+    <div class="btn-list">
+
+  
+     <span class="d-none d-sm-inline" ><a href="{% url 'pdf_uno' contador.id %}" class="btn btn-primary" target="_blank">Imprimir Reporte</a></span>
+  
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+{% block contenido %}
+
+<div class="row g-3">
+
+  <!-- contadores  -->
+
+  <div class="col-md-6 col-xl-2">
+    <div class="card">
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <span class="bg-primary text-white avatar">
+              <i class="fa-solid fa-car"></i>
+            </span>
+          </div>
+          <div class="col">
+            <div class="font-weight-medium">
+           
+              {{contador.vt}} Vehiculos
+           
+            
+            </div>
+            <div class="text-muted">
+              Transitarón
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-xl-2">
+    <div class="card">
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <span class="bg-lime text-white avatar">
+              <i class="fa-solid fa-car-side"></i>
+            </span>
+          </div>
+          <div class="col">
+            <div class="font-weight-medium">
+            
+              {{contador.plc_ex}} Vehiculos
+           
+              
+            </div>
+            <div class="text-muted">
+              Extrajeros PLC
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-xl-2">
+    <div class="card ">
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <span class="bg-teal text-white avatar">
+              <i class="fa-solid fa-car-on"></i>
+            </span>
+          </div>
+          <div class="col">
+            <div class="font-weight-medium">
+           
+              {{contador.vr}} Vehiculos
+            
+            
+            </div>
+            <div class="text-muted">
+              Revisados
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-xl-2">
+    <div class="card card-sm">
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <span class="bg-cyan text-white avatar">
+              <i class="fa-solid fa-truck"></i>
+            </span>
+          </div>
+          <div class="col">
+            <div class="font-weight-medium">
+              {{contador.mta}} Mercancia
+            </div>
+            <div class="text-muted">
+              Tránsito Aduanero
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 col-xl-2">
+    <div class="card card-sm">
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <span class="bg-dark text-white avatar">
+              <i class="fa-solid fa-clone"></i>
+            </span>
+          </div>
+          <div class="col">
+            <div class="font-weight-medium">
+             
+              {{contador.mdua}} Declaración
+            
+            </div>
+            <div class="text-muted">
+              Mercancia Única
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-md-6 col-xl-2">
+    <div class="card card-sm">
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <span class=" bg-purple text-white avatar">
+              <i class="fa-regular fa-flag"></i>
+            </span>
+          </div>
+          <div class="col">
+            <div class="font-weight-medium">
+             
+              {{contador.mn}} Nacionales
+           
+            </div>
+            <div class="text-muted">
+              Mercancia
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        
+        <div id="grafico2"  data-id="{{contador.id}}"></div>
+        
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+
+{% block js %}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    $.ajax({
+      type: "GET",
+      url: "{% url 'subcharts' contador.id %}",
+      dataType: "json",
+      success: function (data) {
+        window.ApexCharts && (new ApexCharts(document.getElementById('grafico2'), {
+          chart: {
+            type: "bar",
+            fontFamily: 'inherit',
+            height: 370,
+            parentHeightOffset: 0,
+            toolbar: {
+              show: false,
+            },
+           
+            animations: {
+              enabled: true
+            },
+          },
+
+          plotOptions: {
+            bar: {
+              columnWidth: '40%',
+            }
+          },
+
+          dataLabels: {
+            enabled: true,
+          },
+
+          fill: {
+            opacity: 1,
+          },
+          series: data.series,
+         
+          xaxis: {
+            categories: ['Información'],
+          },
+
+          colors: [
+
+                  tabler.getColor("azure"),
+                  tabler.getColor("lime"), 
+                  tabler.getColor("teal"), 
+                  tabler.getColor("cyan"), 
+                  tabler.getColor("dark"),
+                  tabler.getColor("purple"),
+                  tabler.getColor("blue"),
+                  tabler.getColor("indigo"),
+                  
+                  ],
+          legend: {
+            show: true,
+          },
+        })).render();
+      },
+    });
+  });
+</script>
+
+
+
+{% endblock  %}
+  
+
+

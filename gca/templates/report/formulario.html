@@ -1,0 +1,209 @@
+<form action="" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <div class="row">
+
+  <div class="form-group col-md-6 mb-4">
+    <label class="form-label " for="paim">{{form_report.paim.label}}</label>
+    <select class="form-control " name="paim" id="paim" value="{{ form_report.paim.value|default_if_none:'' }}">
+   
+      <option value="{{ver.id}}">{{ver.id}} - {{ver.name}}</option>
+   
+    </select>
+    {% for error in form.paim.errors%}
+    <span>{{error}}</span>
+    {% endfor %}
+  </div>
+
+  <div class="form-group col-md-6 mb-4">
+    <label class="form-label " for="datos">Funcionario a Cargo:</label>
+    <select class="form-control " name="datos" id="datos" value="{{ form_report.datos.value|default_if_none:'' }}">
+      
+      <option value="{{ver.jefe}}">{{ver.id}} - {{ver.jefe}}</option>
+    
+    </select>
+      <small class="form-hint">
+        {% for error in form_report.datos.errors%}
+        <span class="text-danger">{{error}}</span>
+        {% endfor %}
+      </small>
+  </div>
+  
+
+    <div class="form-group col-md-4 mb-4">
+      <label class="form-label" for="f">Fecha:</label>
+      <!-- <input type="date" class="form-control" name="f" id="f" value="{{ form_report.f.value }}"> -->
+      {{form_report.f}}
+    </div>
+  <small class="form-hint">
+    {% for error in form_report.f.errors%}
+    <span class="text-danger">{{error}}</span>
+    {% endfor %}
+  </small>
+    </div>
+
+
+    <div class="row ">
+      <div class="col-md-5 mb-3 d-flex align-items-center">
+        <label class="form-label custom-label" for="vt">Vehiculos Transitarón (VT) :</label>
+      </div>
+      <div class="col-md-2 mb-4">
+        <label class="form-label custom-label" for="vt">Cantidad</label>
+        <input type="number" class="form-control" name="vt" id="vt" value="{{ form_report.vt.value|default_if_none:'' }}">
+        <small class="form-hint">
+          {% for error in form_report.vt.errors%}
+          <span class="text-danger">{{error}}</span>
+          {% endfor %}
+        </small>
+      </div>
+      <div class="col-md-5 mb-4">
+        <label class="form-label custom-label" for="ob1">Observaciones</label>
+        <textarea class="form-control" name="ob1" id="ob1" cols="30" rows="2">{{ form_report.ob1.value|default_if_none:'' }}</textarea>
+      </div>
+    </div>
+
+
+    <div class="row g-3">
+      <div class="col-md-5 mb-3 d-flex align-items-center">
+      <label class="form-label" for="vr">Vehiculos Revisados (VR) :</label>
+      </div>
+      <div class="col-md-2 mb-3">
+      <label class="form-label custom-label" for="vr">Cantidad</label>
+        <input type="number" class="form-control" name="vr" id="vr" value="{{ form_report.vr.value|default_if_none:'' }}">
+          <small class="form-hint">
+            {% for error in form_report.vr.errors%}
+            <span class="text-danger">{{error}}</span>
+            {% endfor %}
+          </small>
+      </div>
+      <div class="col-md-5 mb-4">
+      <label class="form-label custom-label" for="ob3">Observaciones</label>
+        <textarea class="form-control" name="ob3" id="ob3" cols="30" rows="2">{{ form_report.ob3.value|default_if_none:'' }}</textarea>
+      </div>
+    </div>
+
+
+    <div class="row g-3">
+      <div class="col-md-5 mb-3 d-flex align-items-center">
+        <label class="form-label" for="mn">Mercancia Nacional (MN) :</label>
+      </div>
+      <div class="col-md-2 mb-3">
+      <label class="form-label custom-label" for="">Cantidad</label>
+        <input type="number" class="form-control" name="mn" id="mn" value="{{ form_report.mn.value|default_if_none:'' }}">
+          <small class="form-hint">
+            {% for error in form_report.mn.errors%}
+            <span class="text-danger">{{error}}</span>
+            {% endfor %}
+          </small>
+      </div>
+
+      <div class="col-md-5 mb-4">
+      <label class="form-label custom-label" for="ob4">Observaciones</label>
+        <textarea class="form-control" name="ob4" id="ob4" cols="30" rows="2">{{ form_report.ob4.value|default_if_none:'' }}</textarea>
+      </div>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-md-5 mb-3 d-flex align-items-center">
+        <label class="form-label" for="rp">Retención Preventiva (RP) :</label>
+      </div>
+      <div class="col-md-2 mb-3">
+      <label class="form-label custom-label" for="rp">Cantidad</label>
+        <input type="number" class="form-control" name="rp" id="rp" value="{{ form_report.rp.value|default_if_none:'' }}">
+          <small class="form-hint">
+            {% for error in form_report.rp.errors%}
+            <span class="text-danger">{{error}}</span>
+            {% endfor %}
+          </small>
+      </div>
+      <div class="col-md-5 mb-4">
+      <label class="form-label custom-label" for="ob5">Observaciones</label>
+        <textarea class="form-control" name="ob5" id="ob5" cols="30" rows="2">{{ form_report.ob5.value|default_if_none:'' }}</textarea>
+      </div>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-md-5 mb-3 d-flex align-items-center">
+        <label class="form-label" for="nd">Numero de Documentación (ND) :</label>
+      </div>
+      <div class="col-md-2 mb-3">
+      <label class="form-label custom-label" for="nd">Cantidad</label>
+        <input type="number" class="form-control" name="nd" id="nd" value="{{ form_report.nd.value|default_if_none:'' }}">
+          <small class="form-hint">
+            {% for error in form.nd.errors%}
+            <span class="text-danger">{{error}}</span>
+            {% endfor %}
+          </small>
+      </div>
+      <div class="col-md-5 mb-4">
+      <label class="form-label custom-label" for="ob6">Observaciones</label>
+        <textarea class="form-control" name="ob6" id="ob6" cols="30" rows="2">{{ form_report.ob6.value|default_if_none:'' }}</textarea>
+      </div>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-md-5 mb-3 d-flex align-items-center">
+        <label class="form-label" for="mta">Mercancia en Transito Aduanero (MTA) :</label>
+      </div>
+      <div class="col-md-2 mb-3">
+      <label class="form-label custom-label" for="">Cantidad</label>
+      <input type="number" class="form-control" name="mta" id="mta" value="{{ form_report.mta.value|default_if_none:'' }}">
+        <small class="form-hint">
+          {% for error in form_report.mta.errors%}
+          <span class="text-danger">{{error}}</span>
+          {% endfor %}
+        </small>
+      </div>
+      <div class="col-md-5 mb-4">
+      <label class="form-label custom-label" for="ob7">Observaciones</label>
+        <textarea class="form-control" name="ob7" id="ob7" cols="30" rows="2">{{ form_report.ob7.value|default_if_none:'' }}</textarea>
+      </div>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-md-5 mb-3 d-flex align-items-center">
+        <label class="form-label custom-label" for="plc_ex">Placas Extranjeras Transitaron(V-PLCEX-T) :</label>
+      </div>
+      <div class="col-md-2 mb-3">
+      <label class="form-label custom-label" for="">Cantidad</label>
+        <input type="number" class="form-control" name="plc_ex" id="plc_ex" value="{{ form_report.plc_ex.value|default_if_none:'' }}">
+          <small class="form-hint">
+            {% for error in form_report.plc_ex.errors%}
+            <span class="text-danger">{{error}}</span>
+            {% endfor %}
+          </small>
+      </div>
+      <div class="col-md-5 mb-4">
+      <label class="form-label custom-label" for="ob2">Observaciones</label>
+        <textarea class="form-control" name="ob2" id="ob2" cols="30" rows="2">{{ form_report.ob2.value|default_if_none:'' }}</textarea>
+      </div>
+    </div>
+
+
+    <div class="row g-3">
+      <div class="col-md-5 mb-3 d-flex align-items-center">
+        <label class="form-label" for="mdua">Mercancia con Declaración Única de Aduanas (MDUA):</label>
+      </div>
+      <div class="col-md-2 mb-3">
+      <label class="form-label custom-label" for="">Cantidad</label>
+        <input type="number" class="form-control" name="mdua" id="mdua" value="{{ form_report.mdua.value|default_if_none:'' }}">
+          <small class="form-hint">
+            {% for error in form_report.mdua.errors%}
+            <span class="text-danger">{{error}}</span>
+            {% endfor %}
+          </small>
+      </div>
+      <div class="col-md-5 mb-3">
+      <label class="form-label custom-label" for="ob8">Observaciones</label>
+        <textarea class="form-control" name="ob8" id="ob8" cols="30" rows="2">{{ form_report.ob8.value|default_if_none:'' }}</textarea>
+      </div>
+    </div>
+
+
+    <div class="modal-footer">
+   
+      <a href="javascript:history.back()" class="btn btn-dark">Cancelar</a>
+
+      <input type="submit" class="btn btn-primary ms-auto" value="Registar">
+    </div>
+</form>

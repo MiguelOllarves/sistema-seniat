@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Realizar Tarea{% endblock %}
+
+{% block menu_vertical %}{% include 'menus/menu_vertical.html' %}{% endblock %}
+
+{% block menu_horizontal %}{% include 'menus/menu_horizontal.html' %}{% endblock %}
+
+{%block seccion %}
+
+<div class="row g-1 align-items-center">
+  <div class="col">
+    <div class="page-pretitle">Panel Principal</div>
+    <h2 class="page-title">Formulario de Tarea</h2>
+  </div>
+</div>
+
+{% endblock %}
+
+
+{% block contenido %}
+
+<div class="row justify-content-center"> 
+<div class="card w-50">
+  <div class="card-header">
+    <h3 class="card-title">Formulario de Tarea</h3>
+  </div>
+  <div class="card-body">
+    {% include 'info/formulario.html' %}
+  </div>
+</div>
+
+</div>
+
+{% endblock %}

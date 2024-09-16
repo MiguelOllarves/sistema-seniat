@@ -1,0 +1,114 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+   
+    <title>{% block titulo %}{% endblock %}</title>
+
+    <link rel="icon" href='{% static "imagenes/icono.ico" %}' type="image/x-icon">
+
+    <link href='{% static "dist/css/tabler.min.css" %}' rel="stylesheet"/>
+
+    <link href='{% static "datatables/datatables.min.css" %}' rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    
+
+    <!-- Un archivo incluye todos los iconos y utilidades de Font Awesome Free-->
+    <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+
+    <style>
+      @import url('https://rsms.me/inter/inter.css');
+      :root {
+      	--tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+      }
+      body {
+      	font-feature-settings: "cv03", "cv04", "cv11";
+      }
+    </style>
+
+    {% block css %} {% endblock  %}
+   
+
+    
+  </head>
+  <body class=" layout-fluid" >
+    <script src='{% static "dist/js/theme.min.js" %}'></script>
+
+    <div class="page">
+     {% block menu_vertical %}{% endblock  %}
+     {% block menu_horizontal %} {% endblock %}
+      <div class="page-wrapper">
+        <div class="page-header d-print-none">
+          <div class="container-xl">
+            {% block seccion %}{% endblock %}
+          </div>
+        </div>
+        <div class="page-body ">
+          <div class="container">
+          
+           {% block contenido %}{% endblock %}
+          </div>
+        </div>
+        {% block pie %}{% endblock  %}
+      </div>
+    </div>
+
+
+<script src='{% static "jquery/jquery-3.7.1.min.js" %}'></script>
+
+<script src='{% static "dist/js/tabler.min.js" %}'></script>
+
+<script src='{% static "sobras/tablas.js" %}'></script>
+
+<script src='{% static "datatables/datatables.js" %}'></script>
+
+<script src='{% static "datatables/datatables.min.js" %}'></script>
+
+<script src='{% static "fontawesomefree/js/all.min.js" %}'></script>
+
+<script src='{% static "alert/sweetalert.min.js" %}'></script>
+
+<script src='{% static "dist/libs/list.js/dist/list.min.js" %}'></script>
+
+<script src='{% static "dist/libs/apexcharts/dist/apexcharts.min.js" %}'></script>
+
+<script src='{% static "dist/libs/jsvectormap/dist/js/jsvectormap.min.js" %}'></script>
+
+<script src='{% static "dist/libs/jsvectormap/dist/maps/world.js" %}'></script>
+
+<script src='{% static "dist/libs/jsvectormap/dist/maps/world-merc.js" %}'></script>
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+
+  {% block js %} {% endblock  %}
+
+
+  {% if messages %}
+  {% for message in messages %}
+  <script>
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top",
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      }
+    });
+    Toast.fire({
+      icon: "{{ message.tags }}",
+      title: "{{ message }}"
+    });
+  </script>
+  {% endfor %}
+  {% endif %}
+
+  </body>
+</html>

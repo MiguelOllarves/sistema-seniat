@@ -1,0 +1,122 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+  <title>Crear una Cuenta</title>
+
+  <link rel="icon" href='{% static "imagenes/icono.ico" %}' type="image/x-icon">
+  
+  <link href='{% static "dist/css/tabler.min.css" %}' rel="stylesheet" />
+  
+  <link href='{% static "dist/css/tabler-flags.min.css" %}' rel="stylesheet" />
+  
+  <link href='{% static "dist/css/tabler-payments.min.css" %}' rel="stylesheet" />
+  
+  <link href='{% static "dist/css/tabler-vendors.min.css" %}' rel="stylesheet" />
+
+  <style>
+    @import url('https://rsms.me/inter/inter.css');
+
+    :root {
+      --tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+    }
+
+    body {
+      font-feature-settings: "cv03", "cv04", "cv11";
+    }
+  </style>
+</head>
+
+<body class=" d-flex flex-column">
+<script src='{% static "dist/js/theme.min.js" %}'></script>
+  <div class="page page-center">
+    <div class="container container-tight py-4">
+      <div class="text-center mb-4">
+        <a href="." class="navbar-brand navbar-brand-autodark"><img src="{% static 'plugins/lgo.png' %}" height="80" alt="LOGO"></a>
+      </div>
+    <form class="card card-md" action="" method="post" autocomplete="off" novalidate>
+      {% csrf_token %}
+      <div class="card-body">
+        <h2 class="card-title text-center mb-4">Crear una nueva cuenta</h2>
+        <div class="mb-3">
+          <label class="form-label" for="first_name">Nombre</label>
+          <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Nombre">
+          <small class="form-hint">
+            Colocar el Primer Nombre.
+          </small>
+          {% if form.first_name.errors %}
+          <small class="text-danger">{{ form.first_name.errors|join:", " }}</small>
+          {% endif %}
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="last_name">Apellido</label>
+          <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Apellido">
+          <small class="form-hint">
+            Colocar el Primer Apellido.
+          </small>
+          {% if form.last_name.errors %}
+          <small class="text-danger">{{ form.last_name.errors|join:", " }}</small>
+          {% endif %}
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="id_username">Nombre de Usuario</label>
+          <input type="text" class="form-control" name="username" id="username" placeholder="Nombre de Usuario">
+          <small class="form-hint">
+            Colocar el Nombre de Usuario segun el Cargo, Ejemplo Administrador, si es muy largo reducirlo.
+          </small>
+          {% if form.username.errors %}
+          <small class="text-danger">{{ form.username.errors|join:", " }}</small>
+          {% endif %}
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="email">Dirección de correo electrónico</label>
+          <input type="email" class="form-control" name="email" id="email" placeholder="Email">
+          {% if form.email.errors %}
+          <small class="text-danger">{{ form.email.errors|join:", " }}</small>
+          {% endif %}
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="password1">Contraseña</label>
+          <div class="input-group input-group-flat">
+            <input type="password" class="form-control" name="password1" id="password1" placeholder="Contraseña"
+              autocomplete="off">
+            <small class="form-hint">
+              Su contraseña debe tener entre 8 y 20 caracteres, contener letras y números, y no debe contener
+              espacios, caracteres especiales o emoji.
+            </small>
+            {% if form.password1.errors %}
+            <small class="text-danger">{{ form.password1.errors|join:", " }}</small>
+            {% endif %}
+          </div>
+        </div>
+    
+        <div class="mb-3">
+          <label class="form-label" for="password2">Repite la Contraseña</label>
+          <div class="input-group input-group-flat">
+            <input type="password" class="form-control" name="password2" id="password2" placeholder="Repetir Contraseña"
+              autocomplete="off">
+          </div>
+          {% if form.password2.errors %}
+          <small class="text-danger">{{ form.password2.errors|join:", " }}</small>
+          {% endif %}
+        </div>
+        <div class="form-footer">
+          <button type="submit" class="btn btn-primary w-100">Crear una nueva cuenta</button>
+        </div>
+      </div>
+    </form>
+      <div class="text-center text-muted mt-3">
+        ¿Ya tienes cuenta? <a href="{% url 'login' %}" tabindex="-1">Iniciar sesión</a>
+      </div>
+    </div>
+  </div>
+ 
+  <script src='{% static "dist/js/tabler.min.js" %}'></script>
+</body>
+
+</html>

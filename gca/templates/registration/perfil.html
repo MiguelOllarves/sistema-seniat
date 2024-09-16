@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Panel Principal{% endblock %}
+
+{% block menu_horizontal %}
+
+{% include 'menus/menu_horizontal.html' %}
+
+{% endblock %}
+
+{% block menu_vertical %}
+
+{% include 'menus/menu_vertical.html' %}
+
+{% endblock %}
+
+
+{%block seccion %}
+
+<div class="row g-1 align-items-center">
+  <div class="col">
+    <div class="page-pretitle">Panel de Usuario</div>
+    <h2 class="page-title">Información del Usuario</h2>
+  </div>
+  <div class="col-auto ms-auto d-print-none">
+    <div class="btn-list">
+      <span class="d-none d-sm-inline">
+      </span>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+{% block contenido %}
+<div class="row justify-content-center">
+  <div class="card w-50">
+    <div class="row g-0">
+      <div class="col d-flex flex-column">
+        <div class="card-body">
+          <h2 class="mb-4">Mi Cuenta</h2>
+          <h3 class="card-title">Detalles de Perfil</h3>
+          <div class="row align-items-center">
+            <div class="col-auto">
+            <span class="avatar avatar-xl">
+              {% if request.user.perfil.image %}
+                <img src="{{ request.user.perfil.image.url }}" alt="Avatar" height="110px">
+                {% else %}
+                <img src="/static/imagenes/avatar2.png" alt="Avatar" height="110px">
+                {% endif %}
+              </span>
+            </div>
+            <div class="col-auto"><a href="{% url 'avatar' %}" class="btn">Cambiar avatar</a></div>
+          </div>
+          <h3 class="card-title mt-4">Perfil de Trabajo</h3>
+          <form action="" method="post">
+            {% csrf_token %}
+          <div class="row g-3">
+            <div class="col-md-4">
+              <div class="form-label">Nombre de Usuario</div>
+              <input type="text" class="form-control" name="username" id="username"   value="{{ form.username.value}}">
+            </div>
+            <div class="col-md-4">
+              <div class="form-label">Nombre</div>
+              <input type="text" class="form-control" name="first_name" id="first_name" value="{{ form.first_name.value}}">
+            </div>
+            <div class="col-md-4">
+              <div class="form-label">Apellido</div>
+              <input type="text" class="form-control" name="last_name"  id="last_name" value="{{ form.last_name.value }}">
+            </div>
+            <div> 
+            <h3 class="card-title mt-3">Correo electrónico</h3>
+            <p class="card-subtitle">Este contacto se mostrará a otros públicamente, así que elígelo con cuidado.</p>
+              <div class="row g-2">
+                <div class="col-md-6">
+                  <input type="text" class="form-control" name="email" id="email" value="{{ form.email.value}}">
+                </div>
+              </div>
+            </div>
+            <!-- <h3 class="card-title mt-4">Contraseña</h3>
+            <p class="card-subtitle">Puede establecer una contraseña permanente si no desea utilizar códigos de inicio
+              de
+              sesión temporales.</p>
+            <div>
+              <a href="#" class="btn">
+                Establecer nueva contraseña
+              </a>
+            </div> -->
+          </div>
+          <!-- guardrar o subir o nose -->
+          <div class="card-footer bg-transparent mt-auto">
+            <div class="btn-list justify-content-end">
+              <a href="{% url 'principal' %}" class="btn">Cancelar</a>
+              <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- #MODAL PARA CAMBIAR EL avatar -->
+<div class="modal modal-blur fade" id="modal-avatar" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cambiar Avatar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {% include 'registration/form_avatar.html' %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock  %}
+  

@@ -1,0 +1,38 @@
+<form action="" id="form-tareas" method="post">
+{% csrf_token %}
+
+<div class="row">
+<div class="form-group mb-3">
+  <label class="form-label" for="fiscales">Funcionario</label>
+  <select class="form-select" name="fiscales" id="fiscales">
+   <option value="{{fiscal.id}}">{{fiscal.datos_fical}}</option>
+  </select>
+  {% for error in form.fiscales.errors%}
+  <span>{{error}}</span>
+  {% endfor %}
+</div>
+
+  <div class="form-group mb-3">
+    <label class="form-label" for="tarea">Tarea</label>
+    <textarea name="tarea" id="tarea" class="form-control" rows="3" placeholder="Escriba su Tarea"></textarea>
+    {% for error in form_tarea.tarea.errors%}
+    <span>{{error}}</span>
+    {% endfor %}
+  </div>
+
+  <div class="form-group col-md-4">
+    <label class="form-label" for="fecha_salida">Fecha Culminación</label>
+    <input type="date" class="form-control" name="fecha_salida" id="fecha_Salida">
+    
+      {% for error in form_tarea.fecha_salida.errors%}
+      <span>{{error}}</span>
+      {% endfor %}
+  </div>
+
+
+<div class="modal-footer">
+  <a href="#" class="btn btn-dark" data-bs-dismiss="modal">Cancelar</a>
+  <input type="submit" class="btn btn-primary ms-auto" id="form-tareas" data-bs-dismiss="modal" value="Registar">
+</div>
+
+</form>
